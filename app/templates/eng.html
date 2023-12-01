@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block title %}Eng Page{% endblock title %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  .sidenav {
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 150px;
+    left: 0px;
+    background: #eee;
+    overflow-x: hidden;
+    padding: 8px 0;
+  }
+  
+  .sidenav a {
+    padding: 6px 8px ;
+    text-decoration: none;
+    font-size: 18px;
+    color: #111213;
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #064579;
+  }
+  
+  .main {
+    width: 80%;
+    margin-left: 21%; /* Same width as the sidebar + left position in px */
+    font-size: 28px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+    margin-top: 12px;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 10px;}
+  }
+  
+
+
+
+
+
+  div.gallery {
+    border: 1px solid #ccc;
+  }
+  
+  div.gallery:hover {
+    border: 1px solid #777;
+  }
+  
+  div.gallery img {
+    width: 100%;
+    height: auto;
+  }
+  .gallery a{
+    font-size: 16px; 
+    font-weight:bold; 
+    border:1px solid rgb(63, 62, 62); 
+    padding:4px 10px; 
+    text-decoration:none;
+  }
+
+  .gallery a:hover{
+    background-color: #064579;
+    color: #eee;
+  }
+
+  div.desc {
+    padding: 15px;
+    text-align: center;
+  }
+  
+  .responsive {
+    padding: 0 6px;
+    float: left;
+    width: 24.99999%;
+    margin-top: 10px;
+  }
+  
+
+  .main input{
+    width: 250px;
+    height: 40px;
+    margin-left: 6px;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+  .main button{
+    font-size: 18px;
+    padding: 4px 12px;
+    border-radius: 5px;
+  }
+  .main button:hover{
+    background-color: #1c65a0;
+    color: #eee;
+  }
+
+
+  @media only screen and (max-width: 700px) {
+    .responsive {
+      width: 49.99999%;
+      margin: 6px 0;
+    }
+    .sidenav{
+      width: 20%;
+    }
+  }
+  
+  @media only screen and (max-width: 500px) {
+    .responsive {
+      width: 75%;
+      margin-left: 20%;
+    }
+    .sidenav{
+      width: 30%;
+    }
+    .main input{
+      width: 180px;
+      height: 40px;
+      margin-left: 79px;
+      font-size: 15px;
+      border-radius: 5px;
+    }
+    .main button{
+      font-size: 18px;
+      padding: 4px 12px;
+      border-radius: 5px;
+    }
+    
+  }
+
+  @media screen and (max-width:473px){
+    .main input{
+      width: 200px;
+      height: 40px;
+      margin-left: 79px;
+      font-size: 15px;
+      border-radius: 5px;
+    }
+    .main button{
+      width: 200px;
+      margin-left: 79px;
+      font-size: 18px;
+      padding: 4px 12px;
+      border-radius: 5px;
+    }
+  }
+  
+  .clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+
+  .pagination ul li{
+    display: inline-block;
+    margin-top: 50px;
+  }
+
+  .pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+  
+  .pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .pagination a:hover:not(.active) {
+    background-color: #ada1a1;
+    border-radius: 5px;
+  }
+
+</style>
+
+
+
+
+<div class="sidenav">
+  <a href="{% url 'engpage' %}">All Subject</a>
+  {% for items in category %}
+  <a href="?category={{items.id}}">{{items.eng_category}}</a>
+  {% endfor %}
+</div>
+
+<div class="main">
+  <form>
+    <input type="search" name="sub_search" id="">
+    <button type="submit">Search</button>
+  </form>
+
+  {% for n in engData %}
+  <div class="responsive">
+    <div class="gallery">
+      <h4 style="background-color: #064579; color:#ccc; padding:5px 8px;">Uploaded: {{n.eng_date}}</h4>
+        <img src="{{n.eng_img.url}}" alt="" style="height: 250px;">
+      <div class="desc">
+        <h3>{{n.eng_book}}</h3>
+        <h4>{{n.eng_teacher}}</h4>
+        <a href="{{n.eng_file.url}}" download >Download</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+    <div class="alert" style="background-color: rgb(227, 27, 27); margin:50px 0; width:80%; color:#fbfbfb">
+      <strong><h2>NO ANY SUBJECT FOUND !! <br> <h3>Please Insert Valid Info</h3> </h2></strong>
+    </div>
+  {% endfor %}
+  
+  
+  <div class="clearfix"></div>
+
+  <div class="pagination">
+    <ul style="list-style-type: none;">
+      {% if engData.has_previous %}
+      <li> <a href="?page={{engData.previous_page_number}}">Previous</a></li>
+      {% endif %}
+
+      {% for n in engData.paginator.page_range %}
+      {% if engData.number == n %}
+      <li> <a href="?page={{n}}" class="active">{{n}}</a></li>
+      {% else %}
+      <li> <a href="?page={{n}}">{{n}}</a></li>
+      {% endif %}
+      {% endfor %} 
+
+      {% if engData.has_next %}
+      <li> <a href="?page={{engData.next_page_number}}" >Next</a></li>
+      {% endif %}
+    </ul>
+  </div> 
+
+</div>  
+
+
+{% endblock content %}

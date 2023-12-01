@@ -1,0 +1,255 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            color: white;
+          }
+          
+          input[type=text],
+          [type=email],
+          [type=password] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+          }
+          
+          input[type=submit] {
+            margin: 40px auto 10px auto;
+            display: block;
+            background-color: whitesmoke;
+            color: black;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          }
+          
+          input[type=submit]:hover {
+            background-color: #0d3682;
+            color: white;
+          }
+          
+          .container {
+            border-radius: 4px;
+            background-color: #0071bc;
+            padding: 20px;
+            width: 55%;
+            margin: auto;
+          }
+          
+          .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+          }
+          
+          .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+          }
+          
+          /* Clear floats after the columns */
+          .row:after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+          
+          /* make it responsive */
+          @media screen and (max-width: 600px) {
+          
+            .col-25,
+            .col-75,
+            input[type=submit] {
+              width: 100%;
+              margin-top: 0;
+            }
+          
+            input[type=submit] {
+              margin-top: 30px;
+          
+            }
+          
+            .container {
+              width: 100%;
+            }
+          
+          }
+          
+          @media screen and (min-width: 601px) and (max-width: 900px) {
+            .container {
+              width: 80%;
+            }
+          }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; margin-top:100px;">Welcome To Register For Eu Online Classroom !!</h1>
+
+<div class="container">
+    {% if msg %}
+    <h2 style="text-align: center; margin-top:100px;">{{msg}}</h2>
+    {% endif %}
+
+    <form action="{% url 'signuppage' %}" method="POST" enctype="multipart/form-data">
+        
+        {% csrf_token %}
+
+        <img src="{% static 'images/logo.png' %}" style="width: 100%; margin:80px 0;"  alt="">
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Your Image</label>
+            </div>
+            <div class="col-75">
+                <input type="file" name="image"  style="border-radius: 4px; width: 100%; border: 1px solid #ccc;" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Full Name</label>
+            </div>
+            <div class="col-75">
+                <input type="text" name="name" placeholder="Enter Your Full Name" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Student Id</label>
+            </div>
+            <div class="col-75">
+                <input type="text" name="student_id" placeholder="Enter Your Student Id" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Email</label>
+            </div>
+            <div class="col-75">
+                <input type="email" name="email" placeholder="Enter Your Email" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Password</label>
+            </div>
+            <div class="col-75">
+                <input type="password" name="password" placeholder="Enter Your Password" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Confirm Password</label>
+            </div>
+            <div class="col-75">
+                <input type="password" name="c_password" placeholder="Enter Your Confirm Password" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Phone Number</label>
+            </div>
+            <div class="col-75">
+                <input type="text" name="phone" placeholder="Enter Your Phone Number" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Semester</label>
+            </div>
+            <div class="col-75">
+                <input type="text" name="semester" placeholder="Enter Your Semester" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Gender</label>
+            </div>
+            <div class="col-75">
+                <input type="radio" name="gender" value="Male" style= "border: 1px solid #ccc;"> Male | <br>
+                <input type="radio" name="gender" value="Female" style=" border: 1px solid #ccc;"> Female
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Marital Status</label>
+            </div>
+            <div class="col-75">
+                <select name="maritalStatus" style="border-radius: 4px; width: 100%; border: 1px solid #ccc;" id="">
+                    <option value="Married">Married</option>
+                    <option value="Un-married">Un-married</option>
+                    <option value="Divorced">Divorced</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Date Of Birth</label>
+            </div>
+            <div class="col-75">
+                <input type="date" style="border-radius: 4px; width: 100%; border: 1px solid #ccc;" name="birth_date" placeholder="Enter Your Date Of Birth" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Blood Group</label>
+            </div>
+            <div class="col-75">
+                <input type="text" name="blood_group" placeholder="Enter Your Blood Group" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-25">
+                <label for="">Why do you want to join Eu Online Classroom ?</label>
+            </div>
+            <div class="col-75">
+                <textarea style="border-radius: 4px; width: 100%; border: 1px solid #ccc;" name="comment" id="" cols="78" rows="10" placeholder="Enter Your Comment Here"
+                    required></textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="submit" name="save" value="Register">
+        </div>
+
+        <div style="margin-top: 20px;">
+        <em style="color: azure;">If you are already registered, Please <a href="{% url 'login' %}" style="color: bisque;">login
+                here </a>!!</em>
+        </div>
+
+    </form>
+</div>
+
+
+</body>
+</html>
+
+
+
+
